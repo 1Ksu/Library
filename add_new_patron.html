@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add a new book</title>
+</head>
+<style>
+    body {
+        background: url(pictures/olia-gozha-J4kK8b9Fgj8-unsplash.jpg) 50%/cover no-repeat;
+        background-size: 100%;
+        margin: 0;
+        width: 100%;
+        height: 700px;
+    }
+
+    .main_block {
+        display: flex;
+        align-items: center;
+        height: 700px;
+        /*padding-top: 30px;
+        padding-bottom: auto;*/
+    }
+
+    .color_block1 {
+        width: fit-content;
+        height: fit-content;
+        padding: 50px;
+        background-color: rgba(227, 227, 227, 1);
+        margin-left: 50px;
+    }
+
+    .color_block2 {
+        width: fit-content;
+        height: fit-content;
+        padding: 50px;
+        background-color: rgba(204, 215, 146, 1);
+        margin-right: auto;
+        margin-left: auto;
+        border-radius: 30px;
+    }
+
+    .form_style {
+        width: fit-content;
+        height: fit-content;
+        padding: 50px;
+        background-color: rgba(237, 233, 222, 1);
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        font-size: 26px;
+    }
+
+    .form_style a {
+        text-decoration: none;
+        color: black;
+        font-style: italic;
+    }
+
+    .form_style div {
+        margin-top: 10px;
+    }
+
+    .form_style div input {
+        font-size: 20px;
+    }
+
+    .menu {
+        display: flex;
+        justify-content: space-evenly;
+        /*flex-direction: column;*/
+        align-items: center;
+    }
+
+    .menu_button {
+        margin-top: 30px;
+        background-color: rgba(204, 215, 146, 1);
+        font-size: 20px;
+        border: none;
+        padding: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+</style>
+
+<body>
+    <div class="main_block">
+        <div class="color_block1">
+            <div class="color_block2">
+                <form action="save_added_patron.php" method="post" class="form_style" enctype="multipart/form-data">
+                    <div></div>
+                    <div>Прізвище відвідувача <input type="text" name="last_name"></div>
+                    <div>Ім'я відвідувача <input type="text" name="first_name"></div>
+                    <div>Адреса <input type="text" name="street_address"></div>
+                    <div>Місто <input type="text" name="city"> </div>
+                    <div class="menu">
+                        <div><button class="menu_button"> <a href="patrons.php">Повернутися назад </a></button></div>
+
+                        <div> <button class="menu_button" type="submit"> Додати </button></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--<div class="menu">
+            <div> <a href="books.php"><button> Повернутися назад</button> </a></div>
+            <div><button type="submit"> Додати </button></div>
+        </div>-->
+    </div>
+</body>
+
+</html>
