@@ -1,23 +1,15 @@
 <?php
-$user = 'root';
-$password = 'root';
-$db = 'practice';
-$host = 'localhost';
-$port = 3307;
+require_once("sql_connect.php");
 
-$link = mysqli_init();
-$success = mysqli_real_connect(
-   $link,
-   $host,
-   $user,
-   $password,
-   $db,
-   $port
-) or die ("Error");
+$connection = new sqlConnect();
 
-$zapros= "DELETE FROM transactions WHERE transaction_id='".$_GET['transaction_id']."'";
-mysqli_query($link, $zapros);
+$connection->connect('root','root', 'practice', 'localhost', 3307);
+
+$myquery= "DELETE FROM transactions WHERE transaction_id='".$_GET['transaction_id']."'";
+$result = $connection->query_result($myquery);
+
 header('Location: transactions.php');
+
 $increment="ALTER TABLE transactions AUTO_INCREMENT=1";
-mysqli_query($link, $increment);
+$result = $connection->query_result($increment);
 ?>

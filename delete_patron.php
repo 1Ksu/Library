@@ -1,23 +1,15 @@
 <?php
-$user = 'root';
-$password = 'root';
-$db = 'practice';
-$host = 'localhost';
-$port = 3307;
+require_once("sql_connect.php");
 
-$link = mysqli_init();
-$success = mysqli_real_connect(
-   $link,
-   $host,
-   $user,
-   $password,
-   $db,
-   $port
-) or die ("Error");
+$connection = new sqlConnect();
 
-$zapros= "DELETE FROM patrons WHERE patron_id='".$_GET['patron_id']."'";
-mysqli_query($link, $zapros);
+$connection->connect('root','root', 'practice', 'localhost', 3307);
+
+$myquery= "DELETE FROM patrons WHERE patron_id='".$_GET['patron_id']."'";
+$result = $connection->query_result($myquery);
+
 header('Location: patrons.php');
+
 $increment="ALTER TABLE patrons AUTO_INCREMENT=1";
-mysqli_query($link, $increment);
+$result = $connection->query_result($increment);
 ?>

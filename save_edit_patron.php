@@ -1,20 +1,9 @@
 <?php
-$user = 'root';
-$password = 'root';
-$db = 'practice';
-$host = 'localhost';
-$port = 3307;
 
-$link = mysqli_init();
-$success = mysqli_real_connect(
-   $link,
-   $host,
-   $user,
-   $password,
-   $db,
-   $port
-) or die ("Error");
+require_once("sql_connect.php");
 
+$connection = new sqlConnect();
+$connection->connect('root','root', 'practice', 'localhost', 3307);
 
 $last_name = $_POST['last_name'];
 $first_name = $_POST['first_name'];
@@ -23,9 +12,8 @@ $city = $_POST['city'];
 $patron_id = $_POST['patron_id'];
 
 
-$zapros = "UPDATE patrons SET last_name='$last_name', first_name='$first_name', street_address='$street_address', city='$city' WHERE patron_id=$patron_id";
-mysqli_query($link, $zapros);
+$myquery = "UPDATE patrons SET last_name='$last_name', first_name='$first_name', street_address='$street_address', city='$city' WHERE patron_id=$patron_id";
+$result =$connection->query_result($myquery);
+
 header('Location: patrons.php');
-/*$increment="ALTER TABLE books AUTO_INCREMENT=1";
-mysqli_query($link, $increment);*/
 ?>

@@ -89,9 +89,9 @@
         <div class="color_block1">
             <div class="color_block2">
                 <form action="save_added_book.php" method="post" class="form_style" enctype="multipart/form-data">
-                    <div>Назва книги <input type="text" name="title"> </div>
-                    <div>Прізвище автора <input type="text" name="author_last_name"></div>
-                    <div>Ім'я автора <input type="text" name="author_first_name"></div>
+                    <div>Назва книги <input type="text" name="title" id="tel"> </div>
+                    <div>Прізвище автора <input type="text" name="author_last_name" onkeyup="lettersOnly(this)"></div>
+                    <div>Ім'я автора <input type="text" name="author_first_name" onkeyup="lettersOnly(this)"></div>
                     <div>Дата публікації <input type="date" name="year_of_publ"></div>
                     <div>Назва видавництва <input type="text" name="publ_name"></div>
                     <div>Стан книги <input type="number" name="book_condition"> </div>
@@ -103,11 +103,8 @@
                 </form>
             </div>
         </div>
-        <!--<div class="menu">
-            <div> <a href="books.php"><button> Повернутися назад</button> </a></div>
-            <div><button type="submit"> Додати </button></div>
-        </div>-->
     </div>
+    <script src="js./correct_input.js"></script>
 </body>
 
 </html>

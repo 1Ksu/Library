@@ -90,37 +90,29 @@ body {
         <div class="color_block1">
             <div class="color_block2">
                 <?php
-                $user = 'root';
-                $password = 'root';
-                $db = 'practice';
-                $host = 'localhost';
-                $port = 3307;
                 
-                $link = mysqli_init();
-                $success = mysqli_real_connect(
-                   $link,
-                   $host,
-                   $user,
-                   $password,
-                   $db,
-                   $port
-                ) or die ("Error");
+                require_once("sql_connect.php");
 
+                $connection = new sqlConnect();
+                $connection->connect('root','root', 'practice', 'localhost', 3307);
+                
                 $transaction_id=$_GET['transaction_id'];
-                $query = "SELECT * FROM transactions_view WHERE transaction_id=$transaction_id";
-                //transaction_date, transaction_type, book_condition, title, last_name, first_name 
-                $rows = mysqli_query($link, $query);
 
-                while ($stroka = mysqli_fetch_array($rows)){
-                    $transaction_type = $stroka['transaction_type'];
-                    $transaction_date = date('Y-m-d', strtotime($stroka['transaction_date']));
-                    $book_condition = $stroka['book_condition'];
-                    $title = $stroka['title'];
-                    $last_name = $stroka['last_name'];
-                    $first_name = $stroka['first_name'];
-                    $transaction_id = $stroka['transaction_id'];
+                $myquery = "SELECT * FROM transactions_view WHERE transaction_id=$transaction_id";
+                $result =$connection->query_result($myquery);
+
+                while ($row = mysqli_fetch_array($result)) 
+                {
+                    $transaction_type = $row['transaction_type'];
+                    $transaction_date = date('Y-m-d', strtotime($row['transaction_date']));
+                    $book_condition = $row['book_condition'];
+                    $title = $row['title'];
+                    $last_name = $row['last_name'];
+                    $first_name = $row['first_name'];
+                    $transaction_id = $row['transaction_id'];
                 }
                 ?>
+                <script src="js./correct_input.js"></script>
                 <form action="save_edit_transaction.php" method="post" class="form_style" enctype="multipart/form-data">
                     <div> Тип транзакції <input type="number" name="transaction_type"
                             value="<?php echo $transaction_type ?>">
@@ -130,9 +122,11 @@ body {
                     </div>
                     <div> Назва книги <input type="text" name="title" value="<?php echo $title ?>">
                     </div>
-                    <div>Прізвище відвідувача <input type="text" name="last_name" value="<?php echo $last_name ?>">
+                    <div>Прізвище відвідувача <input type="text" name="last_name" value="<?php echo $last_name ?>"
+                            onkeyup="lettersOnly(this)">
                     </div>
-                    <div>Ім'я відвідувача <input type="text" name="first_name" value="<?php echo $first_name ?>"></div>
+                    <div>Ім'я відвідувача <input type="text" name="first_name" value="<?php echo $first_name ?>"
+                            onkeyup="lettersOnly(this)"></div>
                     <div>Стан книги <input type="number" name="book_condition" value="<?php echo $book_condition ?>">
                     </div>
                     <div style="visibility: collapse; font-size: 10px;">ID <input

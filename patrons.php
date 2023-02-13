@@ -45,7 +45,9 @@ body {
 
 table {
     border: 1px solid rgba(192, 188, 187, 1);
+    width: 90%;
     border-spacing: 0;
+    border-collapse: collapse;
     margin-left: auto;
     margin-right: auto;
     font-size: 20px;
@@ -85,8 +87,8 @@ td {
         <input type="text" name="search">
         <button type="submit"> Пошук </button>
     </form>
-    <table width="90%" border="1" cellspacing="1" style="border-collapse:collapse;">
-        <tr align="center" style=" font-weight: bolder;">
+    <table>
+        <tr style=" font-weight: bolder;">
             <td>Індекс</td>
             <td>Прізвище відвідувача</td>
             <td>Ім'я відвідувача</td>
@@ -97,41 +99,32 @@ td {
         </tr>
 
         <?php
-        $user = 'root';
-        $password = 'root';
-        $db = 'practice';
-        $host = 'localhost';
-        $port = 3307;
-        
-        $link = mysqli_init();
-        $success = mysqli_real_connect(
-           $link,
-           $host,
-           $user,
-           $password,
-           $db,
-           $port
-        ) or die ("Error");
+        require_once("sql_connect.php");
 
+        $connection = new sqlConnect();
+        $connection->connect('root','root', 'practice', 'localhost', 3307);
+        
         $search_word=$_POST['search'];
         
         if ($search_word==NULL){
-            $query = "SELECT patron_id, last_name, first_name, street_address, city FROM patrons";
+            $myquery = "SELECT patron_id, last_name, first_name, street_address, city FROM patrons";
         }
         else {
-            $query = "SELECT patron_id, last_name, first_name, street_address, city FROM patrons WHERE patron_id LIKE'%$search_word%' OR last_name LIKE '%$search_word%' OR first_name LIKE '%$search_word%' ";
+            $myquery = "SELECT patron_id, last_name, first_name, street_address, city FROM patrons WHERE patron_id LIKE'%$search_word%' OR last_name LIKE '%$search_word%' OR first_name LIKE '%$search_word%' ";
         }
-        $rows=mysqli_query($link, $query);
-        while ($stroka = mysqli_fetch_array($rows))
+        
+        $result =$connection->query_result($myquery);
+
+        while ($row = mysqli_fetch_array($result))
         {
             echo "<tr>";
-            echo "<td>" . $stroka['patron_id'] . "</td>";
-            echo "<td>" . $stroka['last_name'] . "</td>";
-            echo "<td>" . $stroka['first_name'] . "</td>";
-            echo "<td>" . $stroka['street_address'] . "</td>";
-            echo "<td>" . $stroka['city'] . "</td>";
-            echo "<td align='center'><a class='a' href='edit_patron.php?patron_id=" . $stroka['patron_id'] . "'>Редагувати<a/></td>";
-            echo "<td align='center'><a class='a' href='delete_patron.php?patron_id=" . $stroka['patron_id'] . "'>Видалити<a/></td>";
+            echo "<td>" . $row['patron_id'] . "</td>";
+            echo "<td>" . $row['last_name'] . "</td>";
+            echo "<td>" . $row['first_name'] . "</td>";
+            echo "<td>" . $row['street_address'] . "</td>";
+            echo "<td>" . $row['city'] . "</td>";
+            echo "<td align='center'><a class='a' href='edit_patron.php?patron_id=" . $row['patron_id'] . "'>Редагувати<a/></td>";
+            echo "<td align='center'><a class='a' href='delete_patron.php?patron_id=" . $row['patron_id'] . "'>Видалити<a/></td>";
             echo "</tr>";
         }
         ?>

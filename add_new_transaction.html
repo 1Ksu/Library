@@ -85,6 +85,17 @@
 </style>
 
 <body>
+    <script src="js./correct_input.js"></script>
+    <script>
+        function lettersOrNumbersOnly() {
+            var regex = /[^a-аz-я0-9_]/gi;
+            input.value = input.value.replace(regex, "");
+        }
+        function lettersOnly(input) {
+            var regex = /[^a-аz-я]/gi;
+            input.value = input.value.replace(regex, "");
+        }
+    </script>
     <div class="main_block">
         <div class="color_block1">
             <div class="color_block2">
@@ -93,10 +104,12 @@
                     <div></div>
                     <div>Тип транзакції<input type="number" name="transaction_type"></div>
                     <div>Дата транзакції <input type="date" name="transaction_date"></div>
-                    <div>Назва книги <input type="text" name="title"> </div>
-                    <div>Прізвище відвідувача <input type="text" name="last_name"></div>
-                    <div>Ім'я відвідувача <input type="text" name="first_name"></div>
-                    <div>Стан книги <input type="number" name="book_condition"> </div>
+                    <div>Назва книги <input type="text" name="title" onkeyup="lettersOrNumbersOnly()"> </div>
+                    <div>Прізвище відвідувача <input type=" text" name="last_name" onkeyup="lettersOnly(this)">
+                    </div>
+                    <div>Ім'я відвідувача <input type=" text" name="first_name" onkeyup="lettersOnly(this)">
+                    </div>
+                    <div>Стан книги <input type=" number" name="book_condition"> </div>
                     <div class="menu">
                         <div> <button class="menu_button"> <a href="transactions.php"> Повернутися назад
                                 </a> </button></div>

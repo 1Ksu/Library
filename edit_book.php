@@ -86,53 +86,44 @@ body {
 </style>
 
 <body>
+
     <div class="main_block">
         <div class="color_block1">
             <div class="color_block2">
                 <?php
-                $user = 'root';
-                $password = 'root';
-                $db = 'practice';
-                $host = 'localhost';
-                $port = 3307;
                 
-                $link = mysqli_init();
-                $success = mysqli_real_connect(
-                   $link,
-                   $host,
-                   $user,
-                   $password,
-                   $db,
-                   $port
-                ) or die ("Error");
+                require_once("sql_connect.php");
 
-                $query = "SELECT title, author_last_name, author_first_name, publ_name, book_condition FROM books WHERE book_id='".$_GET['book_id']."'";
-                $date_query = "SELECT year_of_publ FROM books WHERE book_id='".$_GET['book_id']."'";
+                $connection = new sqlConnect();
+                $connection->connect('root','root', 'practice', 'localhost', 3307);
 
-                $rows=mysqli_query($link, $query);
-                $date_row=mysqli_query($link, $date_query);
-                while ($stroka = mysqli_fetch_array($rows) and $date_stroka = mysqli_fetch_array($date_row)) 
+                $myquery = "SELECT title, author_last_name, author_first_name, year_of_publ, publ_name, book_condition FROM books WHERE book_id='".$_GET['book_id']."'";
+                $result =$connection->query_result($myquery);
+
+                while ($row = mysqli_fetch_array($result)) 
                 {
                     $book_id=$_GET['book_id'];
-                    $title = $stroka['title'];
-                    $author_last_name = $stroka['author_last_name'];
-                    $author_first_name = $stroka['author_first_name'];
-                    $year_of_publ = date('Y-m-d', strtotime($date_stroka['year_of_publ']));
-                    $publ_name = $stroka['publ_name'];
-                    $book_condition = $stroka['book_condition'];
+                    $title = $row['title'];
+                    $author_last_name = $row['author_last_name'];
+                    $author_first_name = $row['author_first_name'];
+                    $year_of_publ = date('Y-m-d', strtotime($row['year_of_publ']));
+                    $publ_name = $row['publ_name'];
+                    $book_condition = $row['book_condition'];
                 }
                 ?>
+                <script src="js./correct_input.js"></script>
                 <form action="save_edit_book.php" method="post" class="form_style" enctype="multipart/form-data">
                     <div>Назва книги <input type="text" name="title" value="<?php echo $title ?>"> </div>
                     <div>Прізвище автора <input type="text" name="author_last_name"
-                            value="<?php echo $author_last_name ?>">
+                            value="<?php echo $author_last_name ?>" onkeyup="lettersOnly(this)">
                     </div>
                     <div>Ім'я автора <input type="text" name="author_first_name"
-                            value="<?php echo $author_first_name ?>">
+                            value="<?php echo $author_first_name ?>" onkeyup="lettersOnly(this)">
                     </div>
                     <div>Дата публікації <input type="date" name="year_of_publ" value="<?php echo $year_of_publ ?>">
                     </div>
-                    <div>Назва видавництва <input type="text" name="publ_name" value="<?php echo $publ_name ?>"></div>
+                    <div>Назва видавництва <input type="text" name="publ_name" value="<?php echo $publ_name ?>"
+                            onkeyup="lettersOnly(this)"></div>
                     <div>Стан книги <input type="number" name="book_condition" value="<?php echo $book_condition ?>">
                     </div>
                     <div style="visibility: collapse; font-size: 10px;">Стан книги <input
